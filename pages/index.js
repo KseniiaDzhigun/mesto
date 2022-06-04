@@ -1,4 +1,4 @@
-const buttonAdd = document.querySelector('.profile__button_type_add');
+const buttonEdit = document.querySelector('.profile__button_type_edit');
 const popup = document.querySelector('.popup');
 const popupCloseButton = document.querySelector('.popup__close-button');
 
@@ -30,7 +30,7 @@ function formSubmitHandler(evt) {
 
 formElement.addEventListener('submit', formSubmitHandler);
 
-buttonAdd.addEventListener('click', function () {
+buttonEdit.addEventListener('click', function () {
   popupOpenForm();
 });
 
