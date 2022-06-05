@@ -1,4 +1,4 @@
-.elements__list {
+.cards__elements {
   list-style-type: none;
   margin: 0 auto;
   padding: 0;
@@ -10,13 +10,13 @@
 }
 
 @media screen and (max-width: 1023px) {
-  .elements__list {
+  .cards__elements {
     margin: 0 72px 0;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .elements__list {
+  .cards__elements {
     margin: 0 19px 0;
   }
 }

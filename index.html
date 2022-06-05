@@ -5,6 +5,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Страница пользователя сервиса для публикации фотографий Mesto">
+  <meta
+    name="keywords"
+    content="фотографии, Россия, лайк"
+  >
   <title>Mesto Russia</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
@@ -20,55 +25,55 @@
         <div class="profile__text">
           <div class="profile__name">
             <h1 class="profile__title">Ксения Джигун</h1>
-            <button class="profile__button profile__button_type_edit"></button>
+            <button type="button" class="profile__button profile__button_type_edit"></button>
           </div>
           <h2 class="profile__subtitle">Исследователь Урала</h2>
         </div>
       </div>
-      <button class="profile__button profile__button_type_add"></button>
+      <button type="button" class="profile__button profile__button_type_add"></button>
     </section>
-    <section class="elements">
-      <ul class="elements__list">
-        <li class="elements__item">
-          <img src="./images/element-shihan.jpg" alt="Аракульские Шиханы" class="elements__image">
-          <div class="elements__caption">
-            <h3 class="elements__title">Аракульские Шиханы</h3>
-            <button class="elements__like-button"></button>
+    <section class="cards">
+      <ul class="cards__elements">
+        <li class="cards__element">
+          <img src="./images/element-shihan.jpg" alt="Аракульские Шиханы" class="cards__image">
+          <div class="cards__caption">
+            <h3 class="cards__title">Аракульские Шиханы</h3>
+            <button type="button" class="cards__like-button"></button>
           </div>
         </li>
-        <li class="elements__item">
-          <img src="./images/element-turgoyak.jpg" alt="Озеро Тургояк" class="elements__image">
-          <div class="elements__caption">
-            <h3 class="elements__title">Озеро Тургояк</h3>
-            <button class="elements__like-button"></button>
+        <li class="cards__element">
+          <img src="./images/element-turgoyak.jpg" alt="Озеро Тургояк" class="cards__image">
+          <div class="cards__caption">
+            <h3 class="cards__title">Озеро Тургояк</h3>
+            <button type="button" class="cards__like-button"></button>
           </div>
         </li>
-        <li class="elements__item">
-          <img src="./images/element-inyshko.jpg" alt="Озеро Инышко" class="elements__image">
-          <div class="elements__caption">
-            <h3 class="elements__title">Озеро Инышко</h3>
-            <button class="elements__like-button"></button>
+        <li class="cards__element">
+          <img src="./images/element-inyshko.jpg" alt="Озеро Инышко" class="cards__image">
+          <div class="cards__caption">
+            <h3 class="cards__title">Озеро Инышко</h3>
+            <button type="button" class="cards__like-button"></button>
           </div>
         </li>
-        <li class="elements__item">
-          <img src="./images/element-adzhigardak-freeride.jpg" alt="Аджигардак" class="elements__image">
-          <div class="elements__caption">
-            <h3 class="elements__title">Аджигардак</h3>
-            <button class="elements__like-button"></button>
+        <li class="cards__element">
+          <img src="./images/element-adzhigardak-freeride.jpg" alt="Аджигардак" class="cards__image">
+          <div class="cards__caption">
+            <h3 class="cards__title">Аджигардак</h3>
+            <button type="button" class="cards__like-button"></button>
           </div>
         </li>
-        <li class="elements__item">
-          <img src="./images/element-adzhigardak-sunset.jpg" alt="Аша" class="elements__image">
-          <div class="elements__caption">
-            <h3 class="elements__title">Аша</h3>
-            <button class="elements__like-button"></button>
+        <li class="cards__element">
+          <img src="./images/element-adzhigardak-sunset.jpg" alt="Аша" class="cards__image">
+          <div class="cards__caption">
+            <h3 class="cards__title">Аша</h3>
+            <button type="button" class="cards__like-button"></button>
           </div>
         </li>
-        <li class="elements__item">
-          <img src="./images/element-adzhigardak.jpg" alt="Аджигардак" class="elements__image">
-          <div class="elements__caption">
-            <h3 class="elements__title">Аджигардак</h3>
-            <button class="elements__like-button"></button>
+        <li class="cards__element">
+          <img src="./images/element-adzhigardak.jpg" alt="Аджигардак" class="cards__image">
+          <div class="cards__caption">
+            <h3 class="cards__title">Аджигардак</h3>
+            <button type="button" class="cards__like-button"></button>
           </div>
         </li>
       </ul>
@@ -77,18 +82,18 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
-  <div class="popup">
+  <section class="popup">
     <div class="popup__content">
-      <button class="popup__close-button"></button>
-      <form class="popup__form">
+      <button type="button" class="popup__close-button"></button>
+      <form name="user" class="popup__form">
         <h3 class="popup__title">Редактировать профиль</h3>
         <input type="text" name="name" class="popup__input popup__input_type_name">
         <input type="text" name="about" class="popup__input popup__input_type_text">
         <button type="submit" class="popup__button-submit">Сохранить</button>
       </form>
     </div>
-  </div>
-<script src="./pages/index.js"></script>
+  </section>
+<script src="./scripts/index.js"></script>
 </body>
 
 </html>
