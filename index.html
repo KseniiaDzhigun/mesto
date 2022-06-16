@@ -6,10 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Страница пользователя сервиса для публикации фотографий Mesto">
-  <meta
-    name="keywords"
-    content="фотографии, Россия, лайк"
-  >
+  <meta name="keywords" content="фотографии, Россия, лайк">
   <title>Mesto Russia</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
@@ -34,48 +31,6 @@
     </section>
     <section class="cards">
       <ul class="cards__elements">
-        <li class="cards__element">
-          <img src="./images/element-shihan.jpg" alt="Аракульские Шиханы" class="cards__image">
-          <div class="cards__caption">
-            <h3 class="cards__title">Аракульские Шиханы</h3>
-            <button type="button" class="cards__like-button"></button>
-          </div>
-        </li>
-        <li class="cards__element">
-          <img src="./images/element-turgoyak.jpg" alt="Озеро Тургояк" class="cards__image">
-          <div class="cards__caption">
-            <h3 class="cards__title">Озеро Тургояк</h3>
-            <button type="button" class="cards__like-button"></button>
-          </div>
-        </li>
-        <li class="cards__element">
-          <img src="./images/element-inyshko.jpg" alt="Озеро Инышко" class="cards__image">
-          <div class="cards__caption">
-            <h3 class="cards__title">Озеро Инышко</h3>
-            <button type="button" class="cards__like-button"></button>
-          </div>
-        </li>
-        <li class="cards__element">
-          <img src="./images/element-adzhigardak-freeride.jpg" alt="Аджигардак" class="cards__image">
-          <div class="cards__caption">
-            <h3 class="cards__title">Аджигардак</h3>
-            <button type="button" class="cards__like-button"></button>
-          </div>
-        </li>
-        <li class="cards__element">
-          <img src="./images/element-adzhigardak-sunset.jpg" alt="Аша" class="cards__image">
-          <div class="cards__caption">
-            <h3 class="cards__title">Аша</h3>
-            <button type="button" class="cards__like-button"></button>
-          </div>
-        </li>
-        <li class="cards__element">
-          <img src="./images/element-adzhigardak.jpg" alt="Аджигардак" class="cards__image">
-          <div class="cards__caption">
-            <h3 class="cards__title">Аджигардак</h3>
-            <button type="button" class="cards__like-button"></button>
-          </div>
-        </li>
       </ul>
     </section>
   </main>
@@ -93,7 +48,18 @@
       </form>
     </div>
   </section>
-<script src="./scripts/index.js"></script>
+
+  <template class="item_template">
+    <li class="cards__element">
+      <img src="" alt="" class="cards__image">
+      <div class="cards__caption">
+        <h3 class="cards__title"></h3>
+        <button type="button" class="cards__like-button"></button>
+      </div>
+    </li>
+  </template>
+
+  <script src="./scripts/index.js"></script>
 </body>
 
 </html>
