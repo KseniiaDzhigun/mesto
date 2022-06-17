@@ -30,6 +30,8 @@ const list = document.querySelector(".cards__elements");
 
 const buttonEdit = document.querySelector('.profile__button_type_edit');
 const buttonAdd = document.querySelector('.profile__button_type_add');
+const likeButtons = document.querySelectorAll('.cards__like-button');
+
 const popup = document.querySelector('.popup');
 const popups = document.querySelectorAll('.popup');
 const popupAdd = document.querySelector('.popup_type_add');
@@ -38,7 +40,6 @@ const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 // Все переменные задаём как const, так как мы не меняем сами элементы, которые находим, а меняем их значения
 
 const formEdit = popup.querySelector('.popup__form');
-
 const nameInput = formEdit.querySelector('.popup__input_type_name');
 const jobInput = formEdit.querySelector('.popup__input_type_text');
 const nameProfile = document.querySelector('.profile__title');
@@ -48,7 +49,7 @@ const formAdd = popupAdd.querySelector('.popup__form_type_add');
 const placeInput = formAdd.querySelector('.popup__input_type_place');
 const linkInput = formAdd.querySelector('.popup__input_type_link');
 
-// Функция закрытия ближайшего к кнопке попапа
+// Функция закрытия попапа, ближайшего родителя кнопки
 function closePopup(e) {
   e.target.closest('.popup').classList.remove('popup_opened');
 }
@@ -68,6 +69,26 @@ function popupOpenForm() {
   openPopup(popup);
 }
 
+function renderCard({name, link}) {
+  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
+  const cardImage = newCard.querySelector('.cards__image');
+  const cardTitle = newCard.querySelector('.cards__title');
+  const likeButton = newCard.querySelector('.cards__like-button');
+  const deleteButton = newCard.querySelector('.cards__trash-button');
+  cardImage.src = link;
+  cardImage.alt = name;
+  cardTitle.textContent = name;
+  // Определяем на каком элементе событие сработало (кнопка лайка), переключаем для него класс
+  likeButton.addEventListener('click', (evt) => {
+    evt.target.classList.toggle('cards__like-button_active');
+  });
+  // Удаляем по кнопке весь элемент списка, находя ближайшего родителя
+  deleteButton.addEventListener('click', () => {
+    deleteButton.closest('.cards__element').remove();
+  });
+  return newCard;
+}
+
 //Передаем введенные в форму Edit значения в текстовые поля profile и закрываем форму
 function formSubmitHandler(evt) {
   evt.preventDefault();
@@ -79,11 +100,9 @@ function formSubmitHandler(evt) {
 //Передаем введенные в форму Add значения в новую карточку и добавляем её в начало контейнера
 function formAddSubmitHandler(evt) {
   evt.preventDefault();
-  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
-  newCard.querySelector('.cards__image').src = linkInput.value;
-  newCard.querySelector('.cards__image').alt = placeInput.value;
-  newCard.querySelector('.cards__title').textContent = placeInput.value;
-  list.prepend(newCard);
+  const link = linkInput.value;
+  const name = placeInput.value;
+  list.prepend(renderCard({name, link}));
   closePopup(evt);
 }
 
@@ -93,12 +112,9 @@ formAdd.addEventListener('submit', formAddSubmitHandler);
 
 //При загрузке на странице должно быть 6 карточек из готового массива initialCards
 initialCards.forEach(card => {
-  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
-  newCard.querySelector('.cards__image').src = card.link;
-  newCard.querySelector('.cards__image').alt = card.name;
-  newCard.querySelector('.cards__title').textContent = card.name;
-
-  list.append(newCard);
+  const link = card.link;
+  const name = card.name;
+  list.append(renderCard({name, link}));
 })
 
 // Обработчик на кнопку редактирования
@@ -124,4 +140,5 @@ popups.forEach(popupElement => {
     }
   });
 })
+
 
