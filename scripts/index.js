@@ -37,35 +37,25 @@ const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 
 // Все переменные задаём как const, так как мы не меняем сами элементы, которые находим, а меняем их значения
 
-const formElement = popup.querySelector('.popup__form');
-const nameInput = formElement.querySelector('.popup__input_type_name');
-const jobInput = formElement.querySelector('.popup__input_type_text');
+const formEdit = popup.querySelector('.popup__form');
+
+const nameInput = formEdit.querySelector('.popup__input_type_name');
+const jobInput = formEdit.querySelector('.popup__input_type_text');
 const nameProfile = document.querySelector('.profile__title');
 const jobProfile = document.querySelector('.profile__subtitle');
 
-//При загрузке на странице должно быть 6 карточек из готового массива initialCards
-
-initialCards.forEach(card => {
-  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
-  newCard.querySelector('.cards__image').src = card.link;
-  newCard.querySelector('.cards__image').alt = card.name;
-	newCard.querySelector('.cards__title').textContent = card.name;
-
-  list.append(newCard);
-})
+const formAdd = popupAdd.querySelector('.popup__form_type_add');
+const placeInput = formAdd.querySelector('.popup__input_type_place');
+const linkInput = formAdd.querySelector('.popup__input_type_link');
 
 // Функция закрытия ближайшего к кнопке попапа
 function closePopup(e) {
   e.target.closest('.popup').classList.remove('popup_opened');
 }
 
-// function openPopup() {
-//   popup.classList.add('popup_opened');
-// }
-
 // Функция открытия попапа, в параметр будем вставлять нужный попап
 function openPopup(popupElement) {
-popupElement.classList.add('popup_opened');
+  popupElement.classList.add('popup_opened');
 }
 
 
@@ -78,15 +68,38 @@ function popupOpenForm() {
   openPopup(popup);
 }
 
-//Передаем введенные в форму значения в текстовые поля profile и закрываем форму
+//Передаем введенные в форму Edit значения в текстовые поля profile и закрываем форму
 function formSubmitHandler(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
-  closePopup();
+  closePopup(evt);
 }
 
-formElement.addEventListener('submit', formSubmitHandler);
+//Передаем введенные в форму Add значения в новую карточку и добавляем её в начало контейнера
+function formAddSubmitHandler(evt) {
+  evt.preventDefault();
+  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
+  newCard.querySelector('.cards__image').src = linkInput.value;
+  newCard.querySelector('.cards__image').alt = placeInput.value;
+  newCard.querySelector('.cards__title').textContent = placeInput.value;
+  list.prepend(newCard);
+  closePopup(evt);
+}
+
+formEdit.addEventListener('submit', formSubmitHandler);
+
+formAdd.addEventListener('submit', formAddSubmitHandler);
+
+//При загрузке на странице должно быть 6 карточек из готового массива initialCards
+initialCards.forEach(card => {
+  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
+  newCard.querySelector('.cards__image').src = card.link;
+  newCard.querySelector('.cards__image').alt = card.name;
+  newCard.querySelector('.cards__title').textContent = card.name;
+
+  list.append(newCard);
+})
 
 // Обработчик на кнопку редактирования
 buttonEdit.addEventListener('click', () => {
@@ -105,7 +118,7 @@ popupCloseButtons.forEach(closeButton => {
 
 //Каждая форма попапа закрывается при нажатии на пустое место экрана = popup
 popups.forEach(popupElement => {
-  popupElement.addEventListener('click', function (e) {
+  popupElement.addEventListener('click', e => {
     if (e.target === e.currentTarget) {
       closePopup(e);
     }
