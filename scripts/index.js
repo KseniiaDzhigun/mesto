@@ -29,8 +29,11 @@ const itemTemplate = document.querySelector(".item_template").content;
 const list = document.querySelector(".cards__elements");
 
 const buttonEdit = document.querySelector('.profile__button_type_edit');
+const buttonAdd = document.querySelector('.profile__button_type_add');
 const popup = document.querySelector('.popup');
-const popupCloseButton = document.querySelector('.popup__close-button');
+const popups = document.querySelectorAll('.popup');
+const popupAdd = document.querySelector('.popup_type_add');
+const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 
 // Все переменные задаём как const, так как мы не меняем сами элементы, которые находим, а меняем их значения
 
@@ -51,25 +54,20 @@ initialCards.forEach(card => {
   list.append(newCard);
 })
 
-	/*newElement.querySelector('.delete').addEventListener('click', () => {
-		deleteItem(newElement);
-	})
-
-	newElement.querySelector('.duplicate').addEventListener('click', () => {
-		renderItem(text);
-	})
-
-	newElement.querySelector('.edit').addEventListener('click', () => {
-		editItem(newElement);
-	}) */
-
-function closePopup() {
-  popup.classList.remove('popup_opened');
+// Функция закрытия ближайшего к кнопке попапа
+function closePopup(e) {
+  e.target.closest('.popup').classList.remove('popup_opened');
 }
 
-function openPopup() {
-  popup.classList.add('popup_opened');
+// function openPopup() {
+//   popup.classList.add('popup_opened');
+// }
+
+// Функция открытия попапа, в параметр будем вставлять нужный попап
+function openPopup(popupElement) {
+popupElement.classList.add('popup_opened');
 }
+
 
 //Форма открывается с полями, значения которых соответствуют текущей информации в profile
 function popupOpenForm() {
@@ -77,7 +75,7 @@ function popupOpenForm() {
     nameInput.value = nameProfile.textContent;
     jobInput.value = jobProfile.textContent;
   }
-  openPopup();
+  openPopup(popup);
 }
 
 //Передаем введенные в форму значения в текстовые поля profile и закрываем форму
@@ -90,17 +88,27 @@ function formSubmitHandler(evt) {
 
 formElement.addEventListener('submit', formSubmitHandler);
 
-buttonEdit.addEventListener('click', function () {
+// Обработчик на кнопку редактирования
+buttonEdit.addEventListener('click', () => {
   popupOpenForm();
 });
 
-popupCloseButton.addEventListener('click', function () {
-  closePopup();
+// Обработчик на кнопку добавления
+buttonAdd.addEventListener('click', () => {
+  openPopup(popupAdd);
 });
 
-//Форма закрывается при нажатии на пустое место экрана = popup
-popup.addEventListener('click', function (e) {
-  if (e.target === e.currentTarget) {
-    closePopup();
-  }
+// Обработчик на все кнопки закрытия
+popupCloseButtons.forEach(closeButton => {
+  closeButton.addEventListener('click', closePopup)
 });
+
+//Каждая форма попапа закрывается при нажатии на пустое место экрана = popup
+popups.forEach(popupElement => {
+  popupElement.addEventListener('click', function (e) {
+    if (e.target === e.currentTarget) {
+      closePopup(e);
+    }
+  });
+})
+
