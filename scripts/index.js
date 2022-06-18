@@ -35,6 +35,9 @@ const likeButtons = document.querySelectorAll('.cards__like-button');
 const popup = document.querySelector('.popup');
 const popups = document.querySelectorAll('.popup');
 const popupAdd = document.querySelector('.popup_type_add');
+const popupPic = document.querySelector('.popup_type_image');
+const popupImage = document.querySelector('.popup__image');
+const popupCaption = document.querySelector('.popup__caption');
 const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 
 // Все переменные задаём как const, так как мы не меняем сами элементы, которые находим, а меняем их значения
@@ -59,7 +62,6 @@ function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
 }
 
-
 //Форма открывается с полями, значения которых соответствуют текущей информации в profile
 function popupOpenForm() {
   if (popup.classList.contains('popup_opened') === false) {
@@ -67,6 +69,15 @@ function popupOpenForm() {
     jobInput.value = jobProfile.textContent;
   }
   openPopup(popup);
+}
+
+function popupOpenPic({name, link}) {
+  if (popup.classList.contains('popup_opened') === false) {
+    popupImage.src = link;
+    popupImage.alt = name;
+    popupCaption.textContent = name;
+  }
+  openPopup(popupPic);
 }
 
 function renderCard({name, link}) {
@@ -78,14 +89,21 @@ function renderCard({name, link}) {
   cardImage.src = link;
   cardImage.alt = name;
   cardTitle.textContent = name;
+
   // Определяем на каком элементе событие сработало (кнопка лайка), переключаем для него класс
   likeButton.addEventListener('click', (evt) => {
     evt.target.classList.toggle('cards__like-button_active');
   });
+
   // Удаляем по кнопке весь элемент списка, находя ближайшего родителя
   deleteButton.addEventListener('click', () => {
     deleteButton.closest('.cards__element').remove();
   });
+
+  cardImage.addEventListener('click', () => {
+    popupOpenPic({name, link})
+  });
+
   return newCard;
 }
 
