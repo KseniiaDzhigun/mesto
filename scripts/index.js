@@ -62,8 +62,8 @@ function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
 }
 
-//Форма открывается с полями, значения которых соответствуют текущей информации в profile
-function popupOpenForm() {
+//Форма редактирования открывается с полями, значения которых соответствуют текущей информации в profile
+function openPopupForm() {
   if (popup.classList.contains('popup_opened') === false) {
     nameInput.value = nameProfile.textContent;
     jobInput.value = jobProfile.textContent;
@@ -71,7 +71,8 @@ function popupOpenForm() {
   openPopup(popup);
 }
 
-function popupOpenPic({name, link}) {
+//При нажатии на картинку, открываем попап, в который передаётся информация с карточки
+function openPopupPic({name, link}) {
   if (popup.classList.contains('popup_opened') === false) {
     popupImage.src = link;
     popupImage.alt = name;
@@ -80,6 +81,7 @@ function popupOpenPic({name, link}) {
   openPopup(popupPic);
 }
 
+//Функция создания карточки
 function renderCard({name, link}) {
   const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
   const cardImage = newCard.querySelector('.cards__image');
@@ -101,7 +103,7 @@ function renderCard({name, link}) {
   });
 
   cardImage.addEventListener('click', () => {
-    popupOpenPic({name, link})
+    openPopupPic({name, link})
   });
 
   return newCard;
@@ -137,7 +139,7 @@ initialCards.forEach(card => {
 
 // Обработчик на кнопку редактирования
 buttonEdit.addEventListener('click', () => {
-  popupOpenForm();
+  openPopupForm();
 });
 
 // Обработчик на кнопку добавления
