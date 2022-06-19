@@ -37,10 +37,10 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
-  <section class="popup">
+  <section class="popup popup_type_edit">
     <div class="popup__content popup__content_type_form">
       <button type="button" class="popup__close-button"></button>
-      <form name="user" class="popup__form">
+      <form name="user" class="popup__form popup__form_type_edit">
         <h3 class="popup__title">Редактировать профиль</h3>
         <input type="text" name="name" class="popup__input popup__input_type_name">
         <input type="text" name="about" class="popup__input popup__input_type_text">
@@ -54,7 +54,7 @@
       <form name="card" class="popup__form popup__form_type_add">
         <h3 class="popup__title">Новое место</h3>
         <input type="text" name="name" placeholder="Название" class="popup__input popup__input_type_place">
-        <input type="text" name="about" placeholder="Ссылка на картинку" class="popup__input popup__input_type_link">
+        <input type="url" name="link" placeholder="Ссылка на картинку" class="popup__input popup__input_type_link">
         <button type="submit" class="popup__button-submit">Создать</button>
       </form>
     </div>
