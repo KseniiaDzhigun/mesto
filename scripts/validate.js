@@ -1,13 +1,4 @@
-const config = {
-  formSelector: '.popup__form',
-  fieldsetSelector: '.popup__form-set',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-submit',
-  inactiveButtonClass: 'popup__button-submit_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
-
+//Функция показывает ошибку при вводе некорректных данных
 const showInputError = (formElement, inputElement, errorMessage, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(config.inputErrorClass);
@@ -15,6 +6,7 @@ const showInputError = (formElement, inputElement, errorMessage, config) => {
   errorElement.classList.add(config.errorClass);
 }
 
+//Функция скрывает ошибку при вводе корректных данных
 const hideInputError = (formElement, inputElement, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.remove(config.inputErrorClass);
@@ -22,6 +14,7 @@ const hideInputError = (formElement, inputElement, config) => {
   errorElement.textContent = '';
 }
 
+//Функция проверки валидности поля
 const checkInputValidity = (formElement, inputElement) => {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, config);
@@ -30,32 +23,40 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 }
 
+//Функция принимает массив полей формы и возвращает true, если хотя бы одно поле не валидно
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   })
 }
 
+//Функция переключения состояния кнопки в зависимости от валидности полей
 const toggleButtonState = (inputList, buttonElement, config) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(config.inactiveButtonClass);
+    buttonElement.setAttribute('disabled', true);
   } else {
     buttonElement.classList.remove(config.inactiveButtonClass);
+    buttonElement.removeAttribute('disabled');
   }
 }
 
+// Функция добавляет обработчики сразу всем полям формы
 const setEventListeners = (formElement, config) => {
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  //Проверяем состояние кнопки до ввода информации
   toggleButtonState(inputList, buttonElement, config);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
       toggleButtonState(inputList, buttonElement, config);
+      //Проверяем состояние кнопки при изменении любого из полей
     });
   });
 }
 
+//Функция добавляет обработчики сразу всем формам
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formElement) => {
@@ -65,8 +66,9 @@ const enableValidation = (config) => {
     const fieldsetList = Array.from(formElement.querySelectorAll(config.fieldsetSelector));
     fieldsetList.forEach((fieldset) => {
       setEventListeners(fieldset, config);
+      //Валидация каждого отдельного филдсета
     });
   });
 };
 
-enableValidation(config);
+

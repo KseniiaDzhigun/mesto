@@ -50,6 +50,19 @@ const formAdd = popupAdd.querySelector('.popup__form_type_add');
 const placeInput = formAdd.querySelector('.popup__input_type_place');
 const linkInput = formAdd.querySelector('.popup__input_type_link');
 
+//Объект со всеми нужными классами и селекторами элементов для указанных в validate.js функций
+const config = {
+  formSelector: '.popup__form',
+  fieldsetSelector: '.popup__form-set',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-submit',
+  inactiveButtonClass: 'popup__button-submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
+enableValidation(config);
+
 // Функция закрытия попапа, в параметр будем вставлять нужный попап
 
 //Слушатель событий, закрывающий модальное окно по нажатию на Esc , добавляется при открытии модального
@@ -135,6 +148,7 @@ function formAddSubmitHandler(evt) {
   closePopup(popupAdd);
   linkInput.value = '';
   placeInput.value = '';
+
 }
 
 //Обработчик событий submit
