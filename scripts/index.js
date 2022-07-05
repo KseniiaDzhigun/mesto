@@ -51,12 +51,25 @@ const placeInput = formAdd.querySelector('.popup__input_type_place');
 const linkInput = formAdd.querySelector('.popup__input_type_link');
 
 // Функция закрытия попапа, в параметр будем вставлять нужный попап
+
+//Слушатель событий, закрывающий модальное окно по нажатию на Esc , добавляется при открытии модального
+//окна и удаляется при его закрытии
 function closePopup(popup) {
+  document.removeEventListener('keydown', closePopupByKey);
   popup.classList.remove('popup_opened');
+}
+
+//Функция закрытия модальных окон по нажатию на Esc
+const closePopupByKey = (evt) => {
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
+    closePopup(popup);
+  }
 }
 
 // Функция открытия попапа, в параметр будем вставлять нужный попап
 function openPopup(popup) {
+  document.addEventListener('keydown', closePopupByKey);
   popup.classList.add('popup_opened');
 }
 
