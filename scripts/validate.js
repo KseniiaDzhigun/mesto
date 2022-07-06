@@ -30,19 +30,27 @@ const hasInvalidInput = (inputList) => {
   })
 }
 
+const disableButton = (buttonElement, config) => {
+  buttonElement.classList.add(config.inactiveButtonClass);
+  buttonElement.setAttribute('disabled', true);
+}
+
+const enableButton = (buttonElement, config) => {
+  buttonElement.classList.remove(config.inactiveButtonClass);
+  buttonElement.removeAttribute('disabled');
+}
+
 //Функция переключения состояния кнопки в зависимости от валидности полей
 const toggleButtonState = (inputList, buttonElement, config) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(config.inactiveButtonClass);
-    buttonElement.setAttribute('disabled', true);
+    disableButton(buttonElement, config);
   } else {
-    buttonElement.classList.remove(config.inactiveButtonClass);
-    buttonElement.removeAttribute('disabled');
+    enableButton(buttonElement, config);
   }
 }
 
 // Функция добавляет обработчики сразу всем полям формы
-const setEventListeners = (formElement, config) => {
+function setEventListeners(formElement, config) {
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
   //Проверяем состояние кнопки до ввода информации
@@ -71,4 +79,13 @@ const enableValidation = (config) => {
   });
 };
 
+
+//Сброс текста и классов ошибок, некорректно веденных данных
+const resetForm = (formElement, config) => {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, config);
+    inputElement.value = '';
+  });
+}
 
