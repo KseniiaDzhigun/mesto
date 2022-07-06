@@ -12,3 +12,7 @@
   line-height: 1.2;
   font-family: inherit;
 }
+
+.popup__input::placeholder {
+color: #C4C4C4;
+}

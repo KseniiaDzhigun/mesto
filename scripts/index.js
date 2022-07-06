@@ -43,20 +43,36 @@ const nameInput = formEdit.querySelector('.popup__input_type_name');
 const jobInput = formEdit.querySelector('.popup__input_type_text');
 const nameProfile = document.querySelector('.profile__title');
 const jobProfile = document.querySelector('.profile__subtitle');
+const buttonSubmitFormEdit = formEdit.querySelector('.popup__button-submit_type_edit')
 
 const buttonAdd = document.querySelector('.profile__button_type_add');
 const popupAdd = document.querySelector('.popup_type_add');
 const formAdd = popupAdd.querySelector('.popup__form_type_add');
 const placeInput = formAdd.querySelector('.popup__input_type_place');
 const linkInput = formAdd.querySelector('.popup__input_type_link');
+const buttonSubmitFormAdd = formAdd.querySelector('.popup__button-submit_type_add');
 
-// Функция закрытия попапа, в параметр будем вставлять нужный попап
+//Объект со всеми нужными классами и селекторами элементов для указанных в validate.js функций
+const config = {
+  formSelector: '.popup__form',
+  fieldsetSelector: '.popup__form-set',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-submit',
+  inactiveButtonClass: 'popup__button-submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
 
-//Слушатель событий, закрывающий модальное окно по нажатию на Esc , добавляется при открытии модального
-//окна и удаляется при его закрытии
+//Вызов функции валидации форм
+enableValidation(config);
+
+//Функция закрытия попапа, в параметр будем вставлять нужный попап
+//Слушатель событий, закрывающий модальное окно по нажатию на Esc , добавляется при открытии модального окна и удаляется при его закрытии
+//Сбрасываем форму при закрытии
 function closePopup(popup) {
   document.removeEventListener('keydown', closePopupByKey);
   popup.classList.remove('popup_opened');
+  resetForm(popup, config);
 }
 
 //Функция закрытия модальных окон по нажатию на Esc
@@ -78,6 +94,7 @@ function openPopupEdit() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
   openPopup(popupEdit);
+  enableButton(buttonSubmitFormEdit, config);
 }
 
 //При нажатии на картинку, открываем попап, в который передаётся информация с карточки
@@ -133,8 +150,7 @@ function formAddSubmitHandler(evt) {
   const name = placeInput.value;
   cardsContainer.prepend(renderCard({name, link}));
   closePopup(popupAdd);
-  linkInput.value = '';
-  placeInput.value = '';
+  disableButton(buttonSubmitFormAdd, config);
 }
 
 //Обработчик событий submit
