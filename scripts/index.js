@@ -1,30 +1,3 @@
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 // Все переменные задаём как const, так как мы не меняем сами элементы, которые находим, а меняем их значения
 
 const itemTemplate = document.querySelector(".item_template").content;
@@ -68,11 +41,9 @@ enableValidation(config);
 
 //Функция закрытия попапа, в параметр будем вставлять нужный попап
 //Слушатель событий, закрывающий модальное окно по нажатию на Esc , добавляется при открытии модального окна и удаляется при его закрытии
-//Сбрасываем форму при закрытии
 function closePopup(popup) {
   document.removeEventListener('keydown', closePopupByKey);
   popup.classList.remove('popup_opened');
-  resetForm(popup, config);
 }
 
 //Функция закрытия модальных окон по нажатию на Esc
@@ -143,7 +114,7 @@ function formSubmitHandler(evt) {
 }
 
 //Передаем введенные в форму Add значения в новую карточку и добавляем её в начало контейнера
-//Очищаем инпуты после успешного добавления карточки
+//Закрываем форму и дезактивируем кнопку submit
 function formAddSubmitHandler(evt) {
   evt.preventDefault();
   const link = linkInput.value;
@@ -165,13 +136,15 @@ initialCards.forEach(card => {
   cardsContainer.append(renderCard({name, link}));
 })
 
-// Обработчик на кнопку редактирования
+// Обработчик на кнопку редактирования: сбрасываем ошибки предыдущего заполнения и открываем форму
 buttonEdit.addEventListener('click', () => {
+  resetForm(popupEdit, config);
   openPopupEdit();
 });
 
-// Обработчик на кнопку добавления
+// Обработчик на кнопку добавления: сбрасываем ошибки предыдущего заполнения и открываем форму
 buttonAdd.addEventListener('click', () => {
+  resetForm(popupAdd, config);
   openPopup(popupAdd);
 });
 
