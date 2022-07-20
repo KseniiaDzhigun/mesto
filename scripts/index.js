@@ -76,35 +76,6 @@ function openPopupPic({name, link}) {
   openPopup(popupPic);
 }
 
-//Функция создания карточки
-function renderCard({name, link}) {
-  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
-  const cardImage = newCard.querySelector('.cards__image');
-  const cardTitle = newCard.querySelector('.cards__title');
-  const likeButton = newCard.querySelector('.cards__like-button');
-  const deleteButton = newCard.querySelector('.cards__trash-button');
-  cardImage.src = link;
-  cardImage.alt = name;
-  cardTitle.textContent = name;
-
-  // По клику переключаем класс на кнопке лайка
-  likeButton.addEventListener('click', () => {
-    likeButton.classList.toggle('cards__like-button_active');
-  });
-
-  // Удаляем по кнопке весь элемент списка
-  deleteButton.addEventListener('click', () => {
-    newCard.remove();
-  });
-
-  //По клику на изображение открывается попап с картинкой
-  cardImage.addEventListener('click', () => {
-    openPopupPic({name, link})
-  });
-
-  return newCard;
-}
-
 //Передаем введенные в форму Edit значения в текстовые поля profile и закрываем форму
 function formSubmitHandler(evt) {
   evt.preventDefault();
@@ -119,7 +90,11 @@ function formAddSubmitHandler(evt) {
   evt.preventDefault();
   const link = linkInput.value;
   const name = placeInput.value;
-  cardsContainer.prepend(renderCard({name, link}));
+  const card = new Card({name, link}, '.item_template', () => {
+    openPopupPic({name, link});
+  });
+  const cardElement = card.generateCard();
+  cardsContainer.prepend(cardElement);
   closePopup(popupAdd);
   disableButton(buttonSubmitFormAdd, config);
 }
@@ -130,10 +105,14 @@ formEdit.addEventListener('submit', formSubmitHandler);
 formAdd.addEventListener('submit', formAddSubmitHandler);
 
 //При загрузке на странице должно быть 6 карточек из готового массива initialCards
-initialCards.forEach(card => {
-  const link = card.link;
-  const name = card.name;
-  cardsContainer.append(renderCard({name, link}));
+initialCards.forEach(initialCard => {
+  const link = initialCard.link;
+  const name = initialCard.name;
+  const card = new Card({name, link}, '.item_template', () => {
+    openPopupPic({name, link});
+  });
+  const cardElement = card.generateCard();
+  cardsContainer.append(cardElement);
 })
 
 // Обработчик на кнопку редактирования: сбрасываем ошибки предыдущего заполнения и открываем форму
