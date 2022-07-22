@@ -1,4 +1,8 @@
-class Card {
+//Класс Card создаёт карточку с текстом и ссылкой на изображение
+
+export class Card {
+  //Класс принимает в конструктор данные карточки, селектор её template-элемента
+  // и колбэк, который устанавливает поведение карточки на клик по изображению
   constructor({name, link}, cardSelector, handleImageClick) {
     this._title = name;
     this._alt = name;
@@ -8,16 +12,19 @@ class Card {
   }
 
   _getTemplate() {
+  //Забираем разметку из HTML и клонируем элемент
     const cardElement = document
       .querySelector(this._cardSelector)
       .content
       .querySelector('.cards__element')
       .cloneNode(true);
-
+  //Возвращаем DOM-элемент карточки
     return cardElement;
   }
 
+  //Публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки.
   generateCard() {
+  // Записываем разметку в приватное поле _element. Так у других элементов появится доступ к ней.
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector('.cards__image');
     this._likeButton = this._element.querySelector('.cards__like-button');
@@ -31,6 +38,7 @@ class Card {
     return this._element;
   }
 
+  //Добавляем в приватный метод все слушатели событий
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => {
       this._handleLikeButtonClick();
