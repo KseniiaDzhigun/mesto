@@ -1,3 +1,7 @@
+import { initialCards } from './cards.js';
+import { Card } from './Card.js';
+import { FormValidator } from './formValidator.js';
+
 // Все переменные задаём как const, так как мы не меняем сами элементы, которые находим, а меняем их значения
 
 const itemTemplate = document.querySelector(".item_template").content;
@@ -36,8 +40,13 @@ const config = {
   errorClass: 'popup__error_visible'
 };
 
-//Вызов функции валидации форм
-enableValidation(config);
+//Для каждой проверяемой формы создаем экземпляр класса FormValidator
+const formEditValidator = new FormValidator(config, formEdit);
+const formAddValidator = new FormValidator(config, formAdd);
+
+//Вызываем публичный метод валидации форм класса FormValidator
+formEditValidator.enableValidation();
+formAddValidator.enableValidation();
 
 //Функция закрытия попапа, в параметр будем вставлять нужный попап
 //Слушатель событий, закрывающий модальное окно по нажатию на Esc , добавляется при открытии модального окна и удаляется при его закрытии
@@ -65,7 +74,7 @@ function openPopupEdit() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
   openPopup(popupEdit);
-  enableButton(buttonSubmitFormEdit, config);
+  formEditValidator.enableButton();
 }
 
 //При нажатии на картинку, открываем попап, в который передаётся информация с карточки
@@ -74,35 +83,6 @@ function openPopupPic({name, link}) {
   popupImage.alt = name;
   popupCaption.textContent = name;
   openPopup(popupPic);
-}
-
-//Функция создания карточки
-function renderCard({name, link}) {
-  const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
-  const cardImage = newCard.querySelector('.cards__image');
-  const cardTitle = newCard.querySelector('.cards__title');
-  const likeButton = newCard.querySelector('.cards__like-button');
-  const deleteButton = newCard.querySelector('.cards__trash-button');
-  cardImage.src = link;
-  cardImage.alt = name;
-  cardTitle.textContent = name;
-
-  // По клику переключаем класс на кнопке лайка
-  likeButton.addEventListener('click', () => {
-    likeButton.classList.toggle('cards__like-button_active');
-  });
-
-  // Удаляем по кнопке весь элемент списка
-  deleteButton.addEventListener('click', () => {
-    newCard.remove();
-  });
-
-  //По клику на изображение открывается попап с картинкой
-  cardImage.addEventListener('click', () => {
-    openPopupPic({name, link})
-  });
-
-  return newCard;
 }
 
 //Передаем введенные в форму Edit значения в текстовые поля profile и закрываем форму
@@ -119,9 +99,15 @@ function formAddSubmitHandler(evt) {
   evt.preventDefault();
   const link = linkInput.value;
   const name = placeInput.value;
-  cardsContainer.prepend(renderCard({name, link}));
+// Создадим экземпляр карточки
+  const card = new Card({name, link}, '.item_template', () => {
+    openPopupPic({name, link});
+  });
+// Создаём карточку и возвращаем наружу
+  const cardElement = card.generateCard();
+  cardsContainer.prepend(cardElement);
   closePopup(popupAdd);
-  disableButton(buttonSubmitFormAdd, config);
+  formAddValidator.disableButton();
 }
 
 //Обработчик событий submit
@@ -130,21 +116,29 @@ formEdit.addEventListener('submit', formSubmitHandler);
 formAdd.addEventListener('submit', formAddSubmitHandler);
 
 //При загрузке на странице должно быть 6 карточек из готового массива initialCards
-initialCards.forEach(card => {
-  const link = card.link;
-  const name = card.name;
-  cardsContainer.append(renderCard({name, link}));
+initialCards.forEach(initialCard => {
+  const link = initialCard.link;
+  const name = initialCard.name;
+// Создадим экземпляр карточки
+  const card = new Card({name, link}, '.item_template', () => {
+    openPopupPic({name, link});
+  });
+// Создаём карточку и возвращаем наружу
+  const cardElement = card.generateCard();
+  cardsContainer.append(cardElement);
 })
 
 // Обработчик на кнопку редактирования: сбрасываем ошибки предыдущего заполнения и открываем форму
 buttonEdit.addEventListener('click', () => {
-  resetForm(popupEdit, config);
+  //Вызываем публичный метод сброса формы класса FormValidator
+  formEditValidator.resetForm();
   openPopupEdit();
 });
 
 // Обработчик на кнопку добавления: сбрасываем ошибки предыдущего заполнения и открываем форму
 buttonAdd.addEventListener('click', () => {
-  resetForm(popupAdd, config);
+  //Вызываем публичный метод сброса формы класса FormValidator
+  formAddValidator.resetForm();
   openPopup(popupAdd);
 });
 
