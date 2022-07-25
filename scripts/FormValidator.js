@@ -8,18 +8,18 @@ export class FormValidator {
 
   //Приватный метод показывает ошибку при вводе некорректных данных
   _showInputError(inputElement, errorMessage) {
-    this.errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._config.inputErrorClass);
-    this.errorElement.textContent = errorMessage;
-    this.errorElement.classList.add(this._config.errorClass);
+    this._errorElement.textContent = errorMessage;
+    this._errorElement.classList.add(this._config.errorClass);
   }
 
   //Приватный метод скрывает ошибку при вводе корректных данных
   _hideInputError(inputElement) {
-    this.errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._config.inputErrorClass);
-    this.errorElement.classList.remove(this._config.errorClass);
-    this.errorElement.textContent = '';
+    this._errorElement.classList.remove(this._config.errorClass);
+    this._errorElement.textContent = '';
   }
 
   // Приватный метод проверяет валидность поля
@@ -32,26 +32,26 @@ export class FormValidator {
   }
 
   //Приватный метод принимает массив полей формы и возвращает true, если хотя бы одно поле не валидно
-  _hasInvalidInput() {
-    return this.inputList.some((inputElement) => {
+  _haveInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     })
   }
 
 
   disableButton() {
-    this.buttonElement.classList.add(this._config.inactiveButtonClass);
-    this.buttonElement.setAttribute('disabled', true);
+    this._buttonElement.classList.add(this._config.inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', true);
   }
 
   enableButton() {
-    this.buttonElement.classList.remove(this._config.inactiveButtonClass);
-    this.buttonElement.removeAttribute('disabled');
+    this._buttonElement.classList.remove(this._config.inactiveButtonClass);
+    this._buttonElement.removeAttribute('disabled');
   }
 
   // Приватный метод изменяет состояние кнопки сабмита
   _toggleButtonState() {
-    if (this._hasInvalidInput()) {
+    if (this._haveInvalidInput()) {
       this.disableButton();
     } else {
       this.enableButton();
@@ -60,11 +60,11 @@ export class FormValidator {
 
   // Приватный метод устанавливает обработчики сразу всем полям формы
   _setEventListeners() {
-    this.inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
-    this.buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
     //Проверяем состояние кнопки до ввода информации
     this._toggleButtonState();
-    this.inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState();
@@ -75,20 +75,16 @@ export class FormValidator {
 
   // Публичный метод добавляет обработчики сразу всем формам, включает валидацию формы
   enableValidation() {
-    this.formList = Array.from(document.querySelectorAll(this._config.formSelector));
-    this.formList.forEach(() => {
-      this.fieldsetList = Array.from(this._formElement.querySelectorAll(this._config.fieldsetSelector));
-      this.fieldsetList.forEach((fieldset) => {
-        this._setEventListeners(fieldset);
-        //Валидация каждого отдельного филдсета
-      });
+    this.fieldsetList = Array.from(this._formElement.querySelectorAll(this._config.fieldsetSelector));
+    this.fieldsetList.forEach((fieldset) => {
+      this._setEventListeners(fieldset);
+      //Валидация каждого отдельного филдсета
     });
   };
 
   //Публичный метод сброса текста и классов ошибок, некорректно веденных данных
   resetForm() {
-    this.inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
-    this.inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
       inputElement.value = '';
     });
