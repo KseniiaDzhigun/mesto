@@ -26,7 +26,7 @@ export const initialCards = [
 ];
 
 //Объект со всеми нужными классами и селекторами элементов для указанных в validate.js функций
-export const configPopup = {
+export const configForm = {
   formSelector: '.popup__form',
   fieldsetSelector: '.popup__form-set',
   inputSelector: '.popup__input',
@@ -35,3 +35,15 @@ export const configPopup = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
+
+// // const popupAdd = document.querySelector('.popup_type_add');
+// // const formAdd = popupAdd.querySelector('.popup__form_type_add');
+// const placeInput = formAdd.querySelector('.popup__input_type_place');
+// const linkInput = formAdd.querySelector('.popup__input_type_link');
+
+// // const popupEdit = document.querySelector('.popup_type_edit');
+// const formEdit = popupEdit.querySelector('.popup__form_type_edit');
+export const nameInput = document.querySelector('.popup__input_type_name');
+export const jobInput = document.querySelector('.popup__input_type_text');
+// const nameProfile = document.querySelector('.profile__title');
+// const jobProfile = document.querySelector('.profile__subtitle');
