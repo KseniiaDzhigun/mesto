@@ -25,7 +25,7 @@ export const initialCards = [
   }
 ];
 
-//Объект со всеми нужными классами и селекторами элементов для указанных в validate.js функций
+//Объект со всеми нужными классами и селекторами элементов для FormValidator.js
 export const configForm = {
   formSelector: '.popup__form',
   fieldsetSelector: '.popup__form-set',
@@ -36,14 +36,29 @@ export const configForm = {
   errorClass: 'popup__error_visible'
 };
 
-// // const popupAdd = document.querySelector('.popup_type_add');
-// // const formAdd = popupAdd.querySelector('.popup__form_type_add');
-// const placeInput = formAdd.querySelector('.popup__input_type_place');
-// const linkInput = formAdd.querySelector('.popup__input_type_link');
+//Объект со всеми нужными классами и селекторами элементов для Card.js
+export const configCard = {
+  cardTemplateSelector: '.item_template',
+  cardSelector: '.cards__element',
+  imageSelector: '.cards__image',
+  likeButtonSelector: '.cards__like-button',
+  titleSelector: '.cards__title',
+  trashButtonSelector: '.cards__trash-button',
+  activeLikeButtonClass: 'cards__like-button_active'
+}
 
-// // const popupEdit = document.querySelector('.popup_type_edit');
-// const formEdit = popupEdit.querySelector('.popup__form_type_edit');
+//Объект со всеми нужными классами и селекторами элементов для Popup.js и его наследуемых классов
+export const configPopup = {
+  closeButtonClass: 'popup__close-button',
+  popupOpenedClass: 'popup_opened',
+  popupImageSelector: '.popup__image',
+  popupCaptionSelector: '.popup__caption',
+  inputSelector: '.popup__input'
+}
+
+export const buttonEdit = document.querySelector('.profile__button_type_edit');
+export const buttonAdd = document.querySelector('.profile__button_type_add');
+
 export const nameInput = document.querySelector('.popup__input_type_name');
 export const jobInput = document.querySelector('.popup__input_type_text');
-// const nameProfile = document.querySelector('.profile__title');
-// const jobProfile = document.querySelector('.profile__subtitle');
+

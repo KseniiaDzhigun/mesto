@@ -1,22 +1,22 @@
 //Класс Card создаёт карточку с текстом и ссылкой на изображение
 
 export class Card {
-  //Класс принимает в конструктор данные карточки, селектор её template-элемента
+  //Класс принимает в конструктор данные карточки, конфиг
   // и колбэк, который устанавливает поведение карточки на клик по изображению
-  constructor({name, link}, cardSelector, handleImageClick) {
+  constructor({name, link}, config, handleImageClick) {
     this._title = name;
     this._alt = name;
     this._image = link;
-    this._cardSelector = cardSelector;
+    this._config = config;
     this._handleImageClick = handleImageClick;
   }
 
   _getTemplate() {
   //Забираем разметку из HTML и клонируем элемент
     const cardElement = document
-      .querySelector(this._cardSelector)
+      .querySelector(this._config.cardTemplateSelector)
       .content
-      .querySelector('.cards__element')
+      .querySelector(this._config.cardSelector)
       .cloneNode(true);
   //Возвращаем DOM-элемент карточки
     return cardElement;
@@ -26,12 +26,12 @@ export class Card {
   generateCard() {
   // Записываем разметку в приватное поле _element. Так у других элементов появится доступ к ней.
     this._element = this._getTemplate();
-    this._cardImage = this._element.querySelector('.cards__image');
-    this._likeButton = this._element.querySelector('.cards__like-button');
+    this._cardImage = this._element.querySelector(this._config.imageSelector);
+    this._likeButton = this._element.querySelector(this._config.likeButtonSelector);
 
     this._setEventListeners();
 
-    this._element.querySelector('.cards__title').textContent = this._title;
+    this._element.querySelector(this._config.titleSelector).textContent = this._title;
     this._cardImage.src = this._image;
     this._cardImage.alt = this._alt;
 
@@ -44,7 +44,7 @@ export class Card {
       this._handleLikeButtonClick();
     });
 
-    this._element.querySelector('.cards__trash-button').addEventListener('click', () => {
+    this._element.querySelector(this._config.trashButtonSelector).addEventListener('click', () => {
       this._handleDeleteButtonClick();
     });
 
@@ -52,7 +52,7 @@ export class Card {
   }
 
   _handleLikeButtonClick() {
-    this._likeButton.classList.toggle('cards__like-button_active');
+    this._likeButton.classList.toggle(this._config.activeLikeButtonClass);
   };
 
   _handleDeleteButtonClick() {

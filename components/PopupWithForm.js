@@ -1,11 +1,13 @@
 import { Popup } from './Popup.js'
 
+//Класс PopupWithForm наследует от Popup и перезаписывает родительские методы setEventListeners, close
+
 export class PopupWithForm extends Popup {
-  constructor(popupSelector, formSelector, handleFormSubmit) {
-    super(popupSelector);
+  constructor(popupSelector, config, formSelector, handleFormSubmit) {
+    super(popupSelector, config);
     this._formElement = document.querySelector(formSelector);
     this._handleFormSubmit = handleFormSubmit;
-    this._inputlist = this._formElement.querySelectorAll('.popup__input');
+    this._inputlist = this._formElement.querySelectorAll(this._config.inputSelector);
     this.setEventListeners = this.setEventListeners();
   }
 
@@ -19,6 +21,7 @@ export class PopupWithForm extends Popup {
     })
   }
 
+  //Приватный метод собирает данные всех полей формы
   _getInputValues() {
     this._formValues = {};
 
