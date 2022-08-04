@@ -1,9 +1,9 @@
 export class FormValidator {
   // Класс принимает в конструктор объект настроек с селекторами и классами формы
   // Принимает вторым параметром элемент той формы, которая валидируется
-  constructor(config, formElement) {
+  constructor(config, formSelector) {
     this._config = config;
-    this._formElement = formElement;
+    this._formElement = document.querySelector(formSelector);
   }
 
   //Приватный метод показывает ошибку при вводе некорректных данных
@@ -83,10 +83,9 @@ export class FormValidator {
   };
 
   //Публичный метод сброса текста и классов ошибок, некорректно веденных данных
-  resetForm() {
+  resetFormValidator() {
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
-      inputElement.value = '';
     });
   }
 }
