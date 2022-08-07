@@ -12,18 +12,25 @@ import {
   configPopup,
   buttonEdit,
   buttonAdd,
-  nameInput,
-  jobInput
 } from '../utils/constants.js';
 
+const formValidators = {}
 
-//Для каждой проверяемой формы создаем экземпляр класса FormValidator
-const formEditValidator = new FormValidator(configForm, '.popup__form_type_edit');
-const formAddValidator = new FormValidator(configForm, '.popup__form_type_add');
+// Функция включения валидации для всех форм
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(configForm, formElement)
+    // получаем данные из атрибута `name` у формы
+    const formName = formElement.getAttribute('name')
 
-//Вызываем публичный метод валидации форм класса FormValidator
-formEditValidator.enableValidation();
-formAddValidator.enableValidation();
+    // в объект записываем экземпляр валидатора под именем формы
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(configForm);
 
 
 //Функция создания новой карточки с местом
@@ -64,26 +71,24 @@ const handleAddFormSubmit = (formData) => {
 
   cardsList.addItem(createCard({ name, link }), true);
 
-  formAddValidator.disableButton();
-
   popupAdd.close();
 }
 
 //Для каждого попапа с формой создаем свой экземпляр класса PopupWithForm
 
-const popupAdd = new PopupWithForm('.popup_type_add', configPopup, '.popup__form_type_add', handleAddFormSubmit);
+const popupAdd = new PopupWithForm('.popup_type_add', configPopup, handleAddFormSubmit);
 
 
 //Передаем введенные в форму Edit значения в текстовые поля profile и закрываем форму
 const handleEditFormSubmit = (formData) => {
   const name = formData.name;
-  const info = formData.about;
+  const info = formData.info;
   userInfo.setUserInfo({ name, info })
 
   popupEdit.close();
 }
 
-const popupEdit = new PopupWithForm('.popup_type_edit', configPopup, '.popup__form_type_edit', handleEditFormSubmit);
+const popupEdit = new PopupWithForm('.popup_type_edit', configPopup, handleEditFormSubmit);
 
 
 const userInfo = new UserInfo('.profile__title', '.profile__subtitle');
@@ -92,10 +97,10 @@ const userInfo = new UserInfo('.profile__title', '.profile__subtitle');
 //Форма редактирования открывается с полями, значения которых соответствуют текущей информации в profile
 const openPopupEdit = () => {
   const userData = userInfo.getUserInfo();
-  nameInput.value = userData.name;
-  jobInput.value = userData.info;
+  popupEdit.setInputValues(userData);
   popupEdit.open();
-  formEditValidator.enableButton();
+ // Используем валидатор из объекта по атрибуту name, который задан для формы
+  formValidators['profile-form'].enableButton();
 }
 
 
@@ -103,7 +108,7 @@ const openPopupEdit = () => {
 
 buttonEdit.addEventListener('click', () => {
   //Вызываем публичный метод сброса формы класса FormValidator
-  formEditValidator.resetFormValidator();
+  formValidators['profile-form'].resetFormValidator();
   openPopupEdit();
 });
 
@@ -111,7 +116,8 @@ buttonEdit.addEventListener('click', () => {
 
 buttonAdd.addEventListener('click', () => {
   //Вызываем публичный метод сброса формы класса FormValidator
-  formAddValidator.resetFormValidator();
+  formValidators['card-form'].resetFormValidator();
+  formValidators['card-form'].disableButton();
   popupAdd.open();
 });
 

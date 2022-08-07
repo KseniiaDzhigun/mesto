@@ -39,13 +39,13 @@
   <section class="popup popup_type_edit">
     <div class="popup__content popup__content_type_form">
       <button type="button" class="popup__close-button"></button>
-      <form name="user" class="popup__form popup__form_type_edit" novalidate>
+      <form name="profile-form" class="popup__form popup__form_type_edit" novalidate>
         <fieldset class="popup__form-set">
           <h3 class="popup__title">Редактировать профиль</h3>
           <input id="name-input" type="text" name="name" class="popup__input popup__input_type_name" minlength="2"
             maxlength="40" required>
           <span class="name-input-error popup__error"></span>
-          <input id="about-input" type="text" name="about" class="popup__input popup__input_type_text" minlength="2"
+          <input id="about-input" type="text" name="info" class="popup__input popup__input_type_text" minlength="2"
             maxlength="200" required>
           <span class="about-input-error popup__error"></span>
           <button type="submit" class="popup__button-submit popup__button-submit_type_edit">Сохранить</button>
@@ -56,7 +56,7 @@
   <section class="popup popup_type_add">
     <div class="popup__content popup__content_type_form">
       <button type="button" class="popup__close-button"></button>
-      <form name="card" class="popup__form popup__form_type_add" novalidate>
+      <form name="card-form" class="popup__form popup__form_type_add" novalidate>
         <fieldset class="popup__form-set">
           <h3 class="popup__title">Новое место</h3>
           <input id="place-input" type="text" name="name" placeholder="Название"

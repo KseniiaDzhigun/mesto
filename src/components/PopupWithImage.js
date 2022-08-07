@@ -7,7 +7,7 @@ export class PopupWithImage extends Popup {
     super(popupSelector, config);
     this._popupImage = document.querySelector(this._config.popupImageSelector);
     this._popupCaption = document.querySelector(this._config.popupCaptionSelector);
-    this.setEventListeners = super.setEventListeners();
+    this.setEventListeners();
   }
 
   //При нажатии на картинку, открываем попап, в который передаётся информация с карточки

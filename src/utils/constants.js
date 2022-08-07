@@ -53,12 +53,10 @@ export const configPopup = {
   popupOpenedClass: 'popup_opened',
   popupImageSelector: '.popup__image',
   popupCaptionSelector: '.popup__caption',
-  inputSelector: '.popup__input'
+  inputSelector: '.popup__input',
+  popupFormSelector: '.popup__form'
 }
 
 export const buttonEdit = document.querySelector('.profile__button_type_edit');
 export const buttonAdd = document.querySelector('.profile__button_type_add');
-
-export const nameInput = document.querySelector('.popup__input_type_name');
-export const jobInput = document.querySelector('.popup__input_type_text');
 

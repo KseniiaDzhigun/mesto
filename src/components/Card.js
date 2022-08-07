@@ -59,32 +59,3 @@ export class Card {
     this._element.remove();
   };
 }
-
-//Функция создания карточки до ПР7
-// function renderCard({name, link}) {
-//   const newCard = itemTemplate.querySelector('.cards__element').cloneNode(true);
-//   const cardImage = newCard.querySelector('.cards__image');
-//   const cardTitle = newCard.querySelector('.cards__title');
-//   const likeButton = newCard.querySelector('.cards__like-button');
-//   const deleteButton = newCard.querySelector('.cards__trash-button');
-//   cardImage.src = link;
-//   cardImage.alt = name;
-//   cardTitle.textContent = name;
-
-//   // По клику переключаем класс на кнопке лайка
-//   likeButton.addEventListener('click', () => {
-//     likeButton.classList.toggle('cards__like-button_active');
-//   });
-
-//   // Удаляем по кнопке весь элемент списка
-//   deleteButton.addEventListener('click', () => {
-//     newCard.remove();
-//   });
-
-//   //По клику на изображение открывается попап с картинкой
-//   cardImage.addEventListener('click', () => {
-//     openPopupPic({name, link})
-//   });
-
-//   return newCard;
-
