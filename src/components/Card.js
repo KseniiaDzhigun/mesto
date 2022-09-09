@@ -3,10 +3,10 @@
 export class Card {
   //Класс принимает в конструктор данные карточки, конфиг
   // и колбэк, который устанавливает поведение карточки на клик по изображению
-  constructor({name, link}, config, handleImageClick) {
-    this._title = name;
-    this._alt = name;
-    this._image = link;
+  constructor(data, config, handleImageClick) {
+    this._title = data.name;
+    this._alt = data.name;
+    this._image = data.link;
     this._config = config;
     this._handleImageClick = handleImageClick;
   }
@@ -58,4 +58,9 @@ export class Card {
   _handleDeleteButtonClick() {
     this._element.remove();
   };
+
+  showLikeNumber(data) {
+    this._likeCounter = this._element.querySelector(this._config.likeCounterSelector);
+    this._likeCounter.textContent = data.likes.length;
+  }
 }

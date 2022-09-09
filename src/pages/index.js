@@ -1,4 +1,5 @@
 import '../index.css'
+import { Api } from '../components/Api.js'
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { FormValidator } from '../components/formValidator.js';
@@ -6,7 +7,6 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import {
-  initialCards,
   configCard,
   configForm,
   configPopup,
@@ -32,9 +32,27 @@ const enableValidation = (config) => {
 
 enableValidation(configForm);
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-50',
+  headers: {
+    authorization: 'a5a02e60-10c8-46a9-914b-480856b1458a',
+    'Content-Type': 'application/json'
+  }
+});
+
+//Информация о пользователе подгружается с сервера
+api.getUserInfo().then((res) => {
+  userInfo.setUserInfo(res);
+  userInfo.setUserAvatar(res);
+}).catch((err) => {
+  console.log(`Ошибка: ${err}`)
+});
+
+
+const userInfo = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
 
 //Функция создания новой карточки с местом
-const createCard = ({ name, link }) => {
+function createCard({ name, link }) {
   // Создадим экземпляр карточки класса Card
   const card = new Card({ name, link }, configCard, () => {
     //При нажатии на картинку, открываем попап, в который передаётся информация с карточки
@@ -45,31 +63,39 @@ const createCard = ({ name, link }) => {
   return cardElement;
 }
 
-//При загрузке на странице должно быть 6 карточек из готового массива initialCards
+//Создаем список карточек - экземпляр класса Section
 const cardsList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
+    (item) => {
       const link = item.link;
       const name = item.name;
 
       cardsList.addItem(createCard({ name, link }), false);
-    }
-  },
+    },
   '.cards__elements'
 );
+
+//При загрузке на странице подгружаются карточки с сервера.
+api.getInitialCards().then((res) => {
+cardsList.renderItems(res);
+
+}).catch((err) => {
+  console.log(`Ошибка: ${err}`)
+});
 
 //Для попапа с изображением создаем экземпляр класса PopupWithImage
 const popupPic = new PopupWithImage('.popup_type_image', configPopup);
 
 
-//Передаем введенные в форму Add значения в новую карточку и добавляем её в начало контейнера
-//Закрываем форму и дезактивируем кнопку submit
+//Передаем введенные в форму Add значения в новую карточку и добавляем её
 const handleAddFormSubmit = (formData) => {
   const link = formData.link;
   const name = formData.name;
 
-  cardsList.addItem(createCard({ name, link }), true);
+  //Данные новой карточки сохраняем на сервере
+  //Берем данные новой карточки из ответа сервера и добавляем ее в начало контейнера
+  api.addNewCard({ name, link, like }).then((res) => {
+    cardsList.addItem(createCard(res), true);
+  })
 
   popupAdd.close();
 }
@@ -79,19 +105,23 @@ const handleAddFormSubmit = (formData) => {
 const popupAdd = new PopupWithForm('.popup_type_add', configPopup, handleAddFormSubmit);
 
 
-//Передаем введенные в форму Edit значения в текстовые поля profile и закрываем форму
+//Передаем введенные в форму Edit значения в текстовые поля profile
 const handleEditFormSubmit = (formData) => {
   const name = formData.name;
-  const info = formData.info;
-  userInfo.setUserInfo({ name, info })
+  const about = formData.about;
 
+  //Отредактированные данные профиля сохраняем на сервере.
+  //Берем обновлённые данные пользователя из ответа сервера и вставляем в текстовые поля profile
+  api.editUserInfo({ name, about }).then((res) => {
+    userInfo.setUserInfo(res);
+  }).catch((err) => {
+    console.log(`Ошибка: ${err}`)
+  });
+  //Закрываем форму редактирования профиля
   popupEdit.close();
 }
 
 const popupEdit = new PopupWithForm('.popup_type_edit', configPopup, handleEditFormSubmit);
-
-
-const userInfo = new UserInfo('.profile__title', '.profile__subtitle');
 
 
 //Форма редактирования открывается с полями, значения которых соответствуют текущей информации в profile
@@ -99,7 +129,7 @@ const openPopupEdit = () => {
   const userData = userInfo.getUserInfo();
   popupEdit.setInputValues(userData);
   popupEdit.open();
- // Используем валидатор из объекта по атрибуту name, который задан для формы
+  // Используем валидатор из объекта по атрибуту name, который задан для формы
   formValidators['profile-form'].enableButton();
 }
 
@@ -121,4 +151,4 @@ buttonAdd.addEventListener('click', () => {
   popupAdd.open();
 });
 
-cardsList.renderItems();
+

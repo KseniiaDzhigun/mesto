@@ -17,13 +17,13 @@
   <main class="content">
     <section class="profile">
       <div class="profile__info">
-        <img src="<%=require('./images/avatar_personal.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
+        <img src="#" alt="Аватар пользователя" class="profile__avatar">
         <div class="profile__text">
           <div class="profile__name">
-            <h1 class="profile__title">Ксения Джигун</h1>
+            <h1 class="profile__title"></h1>
             <button type="button" class="profile__button profile__button_type_edit"></button>
           </div>
-          <h2 class="profile__subtitle">Исследователь Урала</h2>
+          <h2 class="profile__subtitle"></h2>
         </div>
       </div>
       <button type="button" class="profile__button profile__button_type_add"></button>
@@ -45,7 +45,7 @@
           <input id="name-input" type="text" name="name" class="popup__input popup__input_type_name" minlength="2"
             maxlength="40" required>
           <span class="name-input-error popup__error"></span>
-          <input id="about-input" type="text" name="info" class="popup__input popup__input_type_text" minlength="2"
+          <input id="about-input" type="text" name="about" class="popup__input popup__input_type_text" minlength="2"
             maxlength="200" required>
           <span class="about-input-error popup__error"></span>
           <button type="submit" class="popup__button-submit popup__button-submit_type_edit">Сохранить</button>
@@ -86,7 +86,10 @@
       <button type="button" class="cards__trash-button"></button>
       <div class="cards__caption">
         <h3 class="cards__title"></h3>
-        <button type="button" class="cards__like-button"></button>
+        <div class="cards__like">
+          <button type="button" class="cards__like-button"></button>
+          <p class="cards__like-counter"></p>
+        </div>
       </div>
     </li>
   </template>

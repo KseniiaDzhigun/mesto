@@ -1,10 +1,9 @@
 // Класс Section отвечает за отрисовку элементов на странице, своей разметки у класса нет
 
 export class Section {
-  constructor({ items, renderer }, containerSelector) {
+  constructor(renderer, containerSelector) {
     //Свойство items — это массив данных, которые нужно добавить на страницу при инициализации класса
     //Свойство renderer — это функция, которая отвечает за создание и отрисовку данных на странице
-    this._renderedItems = items;
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
   }
@@ -12,8 +11,8 @@ export class Section {
 
   //Публичный метод принимает DOM-элемент и добавляет его в контейнер
   //Отрисовка каждого отдельного элемента функцией renderer
-  renderItems() {
-    this._renderedItems.forEach(item => {
+  renderItems(data) {
+    data.forEach(item => {
       this._renderer(item);
     });
   }
