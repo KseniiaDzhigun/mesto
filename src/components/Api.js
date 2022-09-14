@@ -4,7 +4,7 @@ export class Api {
     this._headers = setting.headers;
   }
 
-  getUserInfo() {
+  getInitialUserInfo() {
     return fetch(`${this._address}/users/me`, {
       method: "GET",
       headers: this._headers,
@@ -32,6 +32,11 @@ export class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       });
   }
+
+  getInitialData() {
+    return Promise.all([this.getInitialUserInfo(), this.getInitialCards()]);
+  }
+
 
   editUserInfo(data) {
     return fetch(`${this._address}/users/me`, {
@@ -65,6 +70,20 @@ export class Api {
       });
   }
 
+  deleteCard(id) {
+    return fetch(`${this._address}/cards/${id}`, {
+      method: "DELETE",
+      headers: this._headers,
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
+  }
 
 
 
