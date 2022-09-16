@@ -58,6 +58,13 @@ export const configPopup = {
   popupFormSelector: '.popup__form'
 }
 
+//Объект со всеми нужными классами и селекторами элементов для UserInfo.js и его наследуемых классов
+export const configUser = {
+  userNameSelector: '.profile__title',
+  userAboutSelector: '.profile__subtitle',
+  userAvatarSelector: '.profile__avatar'
+}
+
 export const buttonEdit = document.querySelector('.profile__button_type_edit');
 export const buttonAdd = document.querySelector('.profile__button_type_add');
 

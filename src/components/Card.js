@@ -29,12 +29,6 @@ export class Card {
     return cardElement;
   }
 
-  _removeTrashButton() {
-    if (this._ownerId !== this._userId) {
-      this._trashButton.remove();
-    }
-  }
-
   //Публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки.
   generateCard() {
     // Записываем разметку в приватное поле _element. Так у других элементов появится доступ к ней.
@@ -46,6 +40,8 @@ export class Card {
 
     this._removeTrashButton();
 
+    this._changeLikeButtonState();
+
     this._setEventListeners();
 
     this._likeCounter.textContent = this._likes.length;
@@ -56,23 +52,42 @@ export class Card {
     return this._element;
   }
 
+  _removeTrashButton() {
+    if (this._ownerId !== this._userId) {
+      this._trashButton.remove();
+    }
+  }
+
+  isLiked() {
+    return this._likes.some((likeElement) => {
+      return likeElement._id === this._userId;
+    })
+  }
+
+  updateLikesCounter(updatedData) {
+    this._likes = updatedData.likes;
+    this._likeCounter.textContent = this._likes.length;
+    this._changeLikeButtonState();
+  }
+
+  _changeLikeButtonState() {
+    if (this.isLiked()) {
+      this._likeButton.classList.add(this._config.activeLikeButtonClass);
+    } else {
+      this._likeButton.classList.remove(this._config.activeLikeButtonClass);
+    }
+  }
+
   //Добавляем в приватный метод все слушатели событий
   _setEventListeners() {
-    this._likeButton.addEventListener('click', this._handleLikeClick);
+    this._likeButton.addEventListener('click', () => {
+      this._handleLikeClick(this._id);
+    });
 
     this._trashButton.addEventListener('click', () => {
       this._handleDeleteClick(this._id, this._element);
     });
 
     this._cardImage.addEventListener('click', this._handleImageClick);
-  }
-
-  // _handleLikeButtonClick() {
-  //   this._likeButton.classList.toggle(this._config.activeLikeButtonClass);
-  // };
-
-  showLikeNumber(data) {
-    this._likeCounter = this._element.querySelector(this._config.likeCounterSelector);
-    this._likeCounter.textContent = data.likes.length;
   }
 }

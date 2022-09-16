@@ -4,3 +4,7 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.profile__avatar:hover {
+  cursor: pointer;
+}

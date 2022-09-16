@@ -11,8 +11,9 @@ import {
   configCard,
   configForm,
   configPopup,
+  configUser,
   buttonEdit,
-  buttonAdd,
+  buttonAdd
 } from '../utils/constants.js';
 
 const formValidators = {}
@@ -47,13 +48,25 @@ api.getInitialData().then((initialData) => {
     cardData.currentUser = initialUserInfo;
     // Создадим экземпляр карточки класса Card
     const card = new Card({
-      data:cardData,
+      data: cardData,
       config: configCard,
       handleImageClick: () => {
         popupPic.open(cardData);
       },
-      handleLikeClick: () => {
-        console.log('like');
+      handleLikeClick: (id) => {
+        if (!card.isLiked()) {
+          api.likeCard(id).then((updatedCard) => {
+            card.updateLikesCounter(updatedCard);
+          }).catch((err) => {
+            console.log(`Ошибка: ${err}`)
+          });
+        } else {
+          api.removeLike(id).then((updatedCard) => {
+            card.updateLikesCounter(updatedCard);
+          }).catch((err) => {
+            console.log(`Ошибка: ${err}`)
+          });
+        }
       },
       handleDeleteClick: (id, cardItem) => {
         popupDeleteSubmit.open();
@@ -86,7 +99,28 @@ api.getInitialData().then((initialData) => {
   //Для попапа с изображением создаем экземпляр класса PopupWithImage
   const popupPic = new PopupWithImage('.popup_type_image', configPopup);
 
-  const userInfo = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
+  const handleAvatarFormSubmit = (formData) => {
+    const avatar = formData.avatar;
+
+    //Данные новой карточки сохраняем на сервере
+    //Берем данные новой карточки из ответа сервера и добавляем ее в начало контейнера
+    api.changeAvatar({ avatar }).then((res) => {
+      userInfo.setUserAvatar(res);
+    }).catch((err) => {
+      console.log(`Ошибка: ${err}`)
+    });
+
+    popupAvatar.close();
+  }
+
+  const popupAvatar = new PopupWithForm('.popup_type_avatar', configPopup, handleAvatarFormSubmit);
+
+  const userInfo = new UserInfo(
+    configUser,
+    () => {
+      popupAvatar.open();
+    }
+  );
 
   userInfo.setUserInfo(initialUserInfo);
   userInfo.setUserAvatar(initialUserInfo);
@@ -126,6 +160,8 @@ api.getInitialData().then((initialData) => {
   }
 
   const popupEdit = new PopupWithForm('.popup_type_edit', configPopup, handleEditFormSubmit);
+
+
 
   //Форма редактирования открывается с полями, значения которых соответствуют текущей информации в profile
   const openPopupEdit = () => {

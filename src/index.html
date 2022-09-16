@@ -17,7 +17,9 @@
   <main class="content">
     <section class="profile">
       <div class="profile__info">
-        <img src="#" alt="Аватар пользователя" class="profile__avatar">
+        <div class="profile__avatar-overlay">
+          <img src="#" alt="Аватар пользователя" class="profile__avatar">
+        </div>
         <div class="profile__text">
           <div class="profile__name">
             <h1 class="profile__title"></h1>
@@ -70,6 +72,20 @@
       </form>
     </div>
   </section>
+  <section class="popup popup_type_avatar">
+    <div class="popup__content popup__content_type_form">
+      <button type="button" class="popup__close-button"></button>
+      <form name="avatar-form" class="popup__form popup__form_type_avatar" novalidate>
+        <fieldset class="popup__form-set">
+          <h3 class="popup__title">Обновить аватар</h3>
+          <input id="url-input" type="url" name="avatar" placeholder="Ссылка на картинку"
+            class="popup__input popup__input_type_link" required>
+          <span class="url-input-error popup__error"></span>
+          <button type="submit" class="popup__button-submit popup__button-submit_type_avatar">Сохранить</button>
+        </fieldset>
+      </form>
+    </div>
+  </section>
   <section class="popup popup_type_image">
     <div class="popup__content popup__content_type_image">
       <button type="button" class="popup__close-button"></button>
@@ -80,7 +96,7 @@
     </div>
   </section>
   <section class="popup popup_type_submit">
-    <div class="popup__content popup__content_type_submit">
+    <div class="popup__content popup__content_type_form">
       <button type="button" class="popup__close-button"></button>
       <form name="confirm-form" class="popup__form popup__form_type_confirm">
         <fieldset class="popup__form-set">
