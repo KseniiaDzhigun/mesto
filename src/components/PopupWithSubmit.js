@@ -1,3 +1,5 @@
+//Попап для подтверждения каких-либо действий
+
 import { Popup } from './Popup.js'
 
 export class PopupWithSubmit extends Popup {
@@ -7,6 +9,7 @@ export class PopupWithSubmit extends Popup {
     this.setEventListeners();
   }
 
+  //Метод динамически меняет функцию, которая вызывается при нажатии на кнопку сабмита
   setSubmitAction(action) {
     this._handleSubmitCallback = action;
   }

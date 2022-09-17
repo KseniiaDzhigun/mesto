@@ -1,4 +1,4 @@
-//Класс UserInfo отвечает за управление отображением информации о пользователе на странице
+//Класс UserInfo отвечает за управление отображения информации о пользователе на странице
 
 export class UserInfo {
   constructor(config, handleAvatarClick) {
@@ -25,12 +25,12 @@ export class UserInfo {
     this._userAbout.textContent = data.about;
   }
 
-  _setEventListeners() {
-    this._userAvatar.addEventListener('click', this._handleAvatarClick);
-  }
-
   setUserAvatar(data) {
     this._userAvatar.src = data.avatar;
     this._setEventListeners();
+  }
+
+  _setEventListeners() {
+    this._userAvatar.addEventListener('click', this._handleAvatarClick);
   }
 }

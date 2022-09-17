@@ -2,7 +2,7 @@
 
 export class Card {
   //Класс принимает в конструктор данные карточки, конфиг
-  // и колбэк, который устанавливает поведение карточки на клик по изображению
+  // и колбэки, которые устанавливают поведение карточки на клики
   constructor({ data, config, handleImageClick, handleLikeClick, handleDeleteClick }) {
     this._title = data.name;
     this._alt = data.name;
@@ -52,6 +52,7 @@ export class Card {
     return this._element;
   }
 
+  //Иконка удаления есть только на созданных нами карточках. Убираем иконку удаления на чужих карточках
   _removeTrashButton() {
     if (this._ownerId !== this._userId) {
       this._trashButton.remove();
@@ -64,6 +65,7 @@ export class Card {
     })
   }
 
+  //Метод для переопределения данных по всем лайкам текущей карточки
   updateLikesCounter(updatedData) {
     this._likes = updatedData.likes;
     this._likeCounter.textContent = this._likes.length;
@@ -78,7 +80,6 @@ export class Card {
     }
   }
 
-  //Добавляем в приватный метод все слушатели событий
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => {
       this._handleLikeClick(this._id);

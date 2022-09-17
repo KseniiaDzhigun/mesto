@@ -1,30 +1,3 @@
-// export const initialCards = [
-//   {
-//     name: 'Архыз',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-//   },
-//   {
-//     name: 'Челябинская область',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-//   },
-//   {
-//     name: 'Иваново',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-//   },
-//   {
-//     name: 'Камчатка',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-//   },
-//   {
-//     name: 'Холмогорский район',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-//   },
-//   {
-//     name: 'Байкал',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-//   }
-// ];
-
 //Объект со всеми нужными классами и селекторами элементов для FormValidator.js
 export const configForm = {
   formSelector: '.popup__form',
@@ -55,7 +28,8 @@ export const configPopup = {
   popupImageSelector: '.popup__image',
   popupCaptionSelector: '.popup__caption',
   inputSelector: '.popup__input',
-  popupFormSelector: '.popup__form'
+  popupFormSelector: '.popup__form',
+  submitButtonSelector: '.popup__button-submit',
 }
 
 //Объект со всеми нужными классами и селекторами элементов для UserInfo.js и его наследуемых классов
