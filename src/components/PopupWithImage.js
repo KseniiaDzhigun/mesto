@@ -5,9 +5,8 @@ import { Popup } from './Popup.js'
 export class PopupWithImage extends Popup {
   constructor(popupSelector, config) {
     super(popupSelector, config);
-    this._popupImage = document.querySelector(this._config.popupImageSelector);
-    this._popupCaption = document.querySelector(this._config.popupCaptionSelector);
-    this.setEventListeners();
+    this._popupImage = this._popupElement.querySelector(this._config.popupImageSelector);
+    this._popupCaption = this._popupElement.querySelector(this._config.popupCaptionSelector);
   }
 
   //При нажатии на картинку, открываем попап, в который передаётся информация с карточки

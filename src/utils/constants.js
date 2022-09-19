@@ -41,4 +41,4 @@ export const configUser = {
 
 export const buttonEdit = document.querySelector('.profile__button_type_edit');
 export const buttonAdd = document.querySelector('.profile__button_type_add');
-
+export const userAvatarButton = document.querySelector('.profile__avatar');

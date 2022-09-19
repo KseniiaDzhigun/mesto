@@ -73,11 +73,7 @@ export class Card {
   }
 
   _changeLikeButtonState() {
-    if (this.isLiked()) {
-      this._likeButton.classList.add(this._config.activeLikeButtonClass);
-    } else {
-      this._likeButton.classList.remove(this._config.activeLikeButtonClass);
-    }
+    this._likeButton.classList.toggle(this._config.activeLikeButtonClass, this.isLiked());
   }
 
   _setEventListeners() {
@@ -86,9 +82,13 @@ export class Card {
     });
 
     this._trashButton.addEventListener('click', () => {
-      this._handleDeleteClick(this._id, this._element);
+      this._handleDeleteClick(this._id);
     });
 
     this._cardImage.addEventListener('click', this._handleImageClick);
+  }
+
+  deleteCard() {
+    this._element.remove();
   }
 }

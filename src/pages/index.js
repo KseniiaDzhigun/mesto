@@ -13,7 +13,8 @@ import {
   configPopup,
   configUser,
   buttonEdit,
-  buttonAdd
+  buttonAdd,
+  userAvatarButton
 } from '../utils/constants.js';
 
 const formValidators = {}
@@ -70,12 +71,12 @@ api.getInitialData().then((initialData) => {
           });
         }
       },
-      handleDeleteClick: (id, cardItem) => {
+      handleDeleteClick: (id) => {
         popupDeleteSubmit.open();
         popupDeleteSubmit.setSubmitAction(() => {
           //“Переопределяемое” действие - удаление карточки по её id
           api.deleteCard(id).then(() => {
-            cardItem.remove();
+            card.deleteCard();
             popupDeleteSubmit.close();
           }).catch((err) => {
             console.log(`Ошибка: ${err}`)
@@ -101,11 +102,12 @@ api.getInitialData().then((initialData) => {
 
   //Создаем экземпляр класса PopupWithSubmit для подтверждения удаления карточки
   const popupDeleteSubmit = new PopupWithSubmit('.popup_type_submit', configPopup);
+  popupDeleteSubmit.setEventListeners()
 
 
   //Для попапа с изображением создаем экземпляр класса PopupWithImage
   const popupPic = new PopupWithImage('.popup_type_image', configPopup);
-
+  popupPic.setEventListeners()
 
   //Передаем введенные в форму Avatar значения в текстовые поля profile
   const handleAvatarFormSubmit = (formData) => {
@@ -115,28 +117,22 @@ api.getInitialData().then((initialData) => {
     popupAvatar.setSavingMode(true);
     api.changeAvatar({ avatar }).then((res) => {
       userInfo.setUserAvatar(res);
+      popupAvatar.close();
     }).catch((err) => {
       console.log(`Ошибка: ${err}`)
     }).finally(() => {
       //Убираем индикатор загрузки вне зависимости от того, как завершилась операция
       popupAvatar.setSavingMode(false);
     });
-
-    popupAvatar.close();
   }
 
 
   //Для каждого попапа с формой создаем свой экземпляр класса PopupWithForm
   const popupAvatar = new PopupWithForm('.popup_type_avatar', configPopup, handleAvatarFormSubmit);
-
+  popupAvatar.setEventListeners()
 
   //Создаем экземпляр класса UserInfo
-  const userInfo = new UserInfo(
-    configUser,
-    () => {
-      popupAvatar.open();
-    }
-  );
+  const userInfo = new UserInfo(configUser);
 
   userInfo.setUserInfo(initialUserInfo);
   userInfo.setUserAvatar(initialUserInfo);
@@ -152,18 +148,16 @@ api.getInitialData().then((initialData) => {
     //Берем данные новой карточки из ответа сервера и добавляем ее в начало контейнера
     api.addNewCard(formData).then((res) => {
       cardsList.addItem(createCard(res), true);
+      popupAdd.close();
     }).catch((err) => {
       console.log(`Ошибка: ${err}`);
     }).finally(() => {
       popupAdd.setSavingMode(false);
     });
-
-    popupAdd.close();
   }
 
-
   const popupAdd = new PopupWithForm('.popup_type_add', configPopup, handleAddFormSubmit);
-
+  popupAdd.setEventListeners()
 
   //Передаем введенные в форму Edit значения в текстовые поля profile
   const handleEditFormSubmit = (formData) => {
@@ -175,18 +169,18 @@ api.getInitialData().then((initialData) => {
     popupEdit.setSavingMode(true);
     api.editUserInfo({ name, about }).then((res) => {
       userInfo.setUserInfo(res);
+      //Закрываем форму редактирования профиля
+      popupEdit.close();
     }).catch((err) => {
       console.log(`Ошибка: ${err}`)
     }).finally(() => {
       popupEdit.setSavingMode(false);
     });
-    //Закрываем форму редактирования профиля
-    popupEdit.close();
   }
 
 
   const popupEdit = new PopupWithForm('.popup_type_edit', configPopup, handleEditFormSubmit);
-
+  popupEdit.setEventListeners()
 
   //Форма редактирования открывается с полями, значения которых соответствуют текущей информации в profile
   const openPopupEdit = () => {
@@ -196,6 +190,13 @@ api.getInitialData().then((initialData) => {
     // Используем валидатор из объекта по атрибуту name, который задан для формы
     formValidators['profile-form'].enableButton();
   }
+
+  // Обработчик на кнопку редактирования аватара: сбрасываем ошибки предыдущего заполнения и открываем форму
+  userAvatarButton.addEventListener('click', () => {
+    formValidators['avatar-form'].resetFormValidator();
+    formValidators['avatar-form'].disableButton();
+    popupAvatar.open();
+  });
 
   // Обработчик на кнопку редактирования: сбрасываем ошибки предыдущего заполнения и открываем форму
   buttonEdit.addEventListener('click', () => {

@@ -10,7 +10,6 @@ export class PopupWithForm extends Popup {
     this._inputlist = this._formElement.querySelectorAll(this._config.inputSelector);
     this._submitButton = this._formElement.querySelector(this._config.submitButtonSelector);
     this._submitButtonText = this._submitButton.textContent;
-    this.setEventListeners();
   }
 
   setEventListeners() {
