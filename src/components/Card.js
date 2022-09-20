@@ -9,7 +9,7 @@ export class Card {
     this._image = data.link;
     this._likes = data.likes;
     this._id = data._id;
-    this._userId = data.currentUser._id;
+    this._userId = data.userId;
     this._ownerId = data.owner._id;
 
     this._config = config;
