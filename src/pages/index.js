@@ -53,6 +53,8 @@ api.getInitialData().then((initialData) => {
 
   userId = initialUserInfo._id;
 
+  
+
   userInfo.setUserInfo(initialUserInfo);
   userInfo.setUserAvatar(initialUserInfo);
 
